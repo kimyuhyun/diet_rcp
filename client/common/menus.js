@@ -1,6 +1,6 @@
 const menu = [
     {
-        icon: "bi-person-circle",
+        icon: "user",
         title: "회원관리",
         child: [
             {
@@ -18,7 +18,7 @@ const menu = [
         ],
     },
     {
-        icon: "bi-code-slash",
+        icon: "code",
         title: "코드관리",
         child: [
             {
@@ -28,7 +28,7 @@ const menu = [
         ],
     },
     {
-        icon: "bi-layout-text-window-reverse",
+        icon: "dashboard",
         title: "게시판",
         child: [
             {
@@ -50,7 +50,7 @@ const menu = [
         ],
     },
     {
-        icon: "bi-bar-chart",
+        icon: "chart",
         title: "통계",
         child: [
             {
@@ -72,4 +72,4 @@ const menu = [
         ],
     },
 ];
-module.exports = menu;
+export default menu;

@@ -1,7 +1,6 @@
 process.env.NODE_ENV =
     process.env.NODE_ENV && process.env.NODE_ENV.trim().toLowerCase() == "production" ? "production" : "development";
 
-
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -15,6 +14,11 @@ app.use(express.static(path.join(__dirname, "./client/build")));
 
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
+app.use("/codes", require("./routes/codes"));
+app.use("/article", require("./routes/article"));
+app.use("/crud", require("./routes/crud"));
+app.use("/rcp_summary", require("./routes/rcp_summary"));
+
 
 // error handler
 app.use((err, req, res, next) => {
