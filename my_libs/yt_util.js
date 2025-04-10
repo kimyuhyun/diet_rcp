@@ -1,6 +1,5 @@
 const { YoutubeTranscript } = require("youtube-transcript");
 const axios = require("axios");
-const cheerio = require("cheerio");
 
 const openaiSummary = require("./openai_summary");
 const geminiSummary = require("./gemini_summary");
