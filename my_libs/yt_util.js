@@ -25,7 +25,7 @@ async function getVideoDescriptionWithoutAPI(url) {
 
         return description || "";
     } catch (error) {
-        console.error("설명글을 불러오는 데 실패했습니다:", error.message);
+        console.error(error);
         return null;
     }
 }
@@ -41,7 +41,7 @@ async function getTranscript(url) {
         });
         return text;
     } catch (err) {
-        console.error("자막을 불러오는 데 실패했습니다:", err.message);
+        console.error(err);
         return null;
     }
 }
