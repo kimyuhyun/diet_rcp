@@ -4,6 +4,9 @@ const axios = require("axios");
 const openaiSummary = require("./openai_summary");
 const geminiSummary = require("./gemini_summary");
 
+const path = require('path');
+const cookiePath = path.resolve(__dirname, "cookies.txt");
+
 // JSON 형식 자막에서 텍스트만 추출하는 함수
 function parseJsonSubtitle(jsonSubtitle) {
     try {
@@ -79,6 +82,8 @@ async function getVideoDescriptionWithoutAPI(url) {
 async function getTranscript(url) {
     try {
         const ytDlp = new YTDlpWrap();
+        console.log(cookiePath);
+        
 
         // 자막 정보 가져오기 - 출력 형식 변경
         const output = await ytDlp.execPromise([
@@ -86,6 +91,8 @@ async function getTranscript(url) {
             "--skip-download",
             "--write-auto-sub",
             "--dump-json", // JSON 형식으로 전체 정보 요청
+            "--cookies",
+            cookiePath,
         ]);
 
         // console.log("자막 정보 출력 형식:", typeof output);
