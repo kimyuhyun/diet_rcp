@@ -68,6 +68,8 @@ async function getVideoDescriptionWithoutAPI(url) {
         if (!initialPlayerResponseMatch) {
             throw new Error("ytInitialPlayerResponse를 찾을 수 없습니다.");
         }
+        
+        console.log(initialPlayerResponseMatch);
 
         const playerResponse = JSON.parse(initialPlayerResponseMatch[1]);
         const description = playerResponse.videoDetails?.shortDescription;
