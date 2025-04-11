@@ -54,33 +54,7 @@ function parseJsonSubtitle(jsonSubtitle) {
     }
 }
 
-async function getVideoDescriptionWithoutAPI(url) {
-    try {
-        const { data: html } = await axios.get(url, {
-            headers: {
-                "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-                "User-Agent":
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123 Safari/537.36",
-            },
-        });
-
-        const match = html.match(/ytInitialPlayerResponse\s*=\s*({.*?});/s);
-        if (!match) {
-            throw new Error("ytInitialPlayerResponse를 찾을 수 없습니다.");
-        }
-
-        const playerResponse = JSON.parse(match[1]);
-        const description = playerResponse.videoDetails?.shortDescription;
-        console.log("getVideoDescriptionWithoutAPI", description);
-
-        return description || "";
-    } catch (error) {
-        console.log("getVideoDescriptionWithoutAPI 에러:", error);
-        return null;
-    }
-}
-
-async function getTranscript(url) {
+async function getScript(url) {
     try {
         const ytDlp = new YTDlpWrap();
         console.log(cookiePath);
@@ -107,6 +81,8 @@ async function getTranscript(url) {
             console.log("JSON 파싱 실패, 원본 출력:", output.substring(0, 200)); // 처음 200자만 출력
             return "";
         }
+
+        const description = videoInfo.description || "";
 
         // 자막 정보 추출
         if (!videoInfo.subtitles && !videoInfo.automatic_captions) {
@@ -135,13 +111,13 @@ async function getTranscript(url) {
         }
 
         const { data } = await axios.get(subtitleUrl);
-        const text = parseJsonSubtitle(data);
+        const transcript = parseJsonSubtitle(data);
 
-        console.log(text);
+        
+        
+        
 
-        // 이후에 subtitleUrl을 사용하여 자막 내용을 가져오는 로직 구현
-        // 여기서는 간단히 자막을 찾았다는 메시지만 반환
-        return text;
+        return { transcript, description };
     } catch (err) {
         console.error("자막 추출 오류:", err);
         return null;
@@ -165,6 +141,5 @@ async function getTranscript(url) {
 // })();
 
 module.exports = {
-    getVideoDescriptionWithoutAPI,
-    getTranscript,
+    getScript,
 };

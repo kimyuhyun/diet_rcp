@@ -92,15 +92,16 @@ router.post("/:lang", middleware.tokenVerify, async (req, res, next) => {
 
 async function extractYoutube(result, lang, url) {
     // 자막 가져오기
-    const transcriptText = await ytUtil.getTranscript(url);
-    if (!transcriptText) {
+    const { transcript, description } = await ytUtil.getScript(url);
+    console.log(transcript);
+    console.log("==============================");
+    console.log(description);
+    if (!transcript) {
         result.message = MESSAGE.NO_TRANSCRIPT;
         return result;
     }
 
-    // 설명 가져오기
-    const descriptionText = await ytUtil.getVideoDescriptionWithoutAPI(url);
-    if (!descriptionText) {
+    if (!description) {
         result.message = MESSAGE.NO_DESCRIPTION;
         return result;
     }
@@ -116,7 +117,7 @@ async function extractYoutube(result, lang, url) {
     const maxContentLength = 15000; // API 제한 고려
 
     // 자막과 설명 합치기
-    const allContent = `${descriptionText}\n\n${transcriptText}`;
+    const allContent = `${transcript}\n\n${transcript}`;
 
     // 길이 제한 적용
     const truncatedContent =
@@ -159,9 +160,12 @@ async function extractWebsite(result, lang, url) {
         // HTML 태그 제거하고 텍스트만 추출
         // body의 모든 텍스트를 가져옵니다
         let text = $("body").text().trim();
-        
+
         // 여러 줄 공백 제거하고 정리
-        text = text.replace(/\n\s*\n/g, "\n").replace(/\s+/g, " ").trim();
+        text = text
+            .replace(/\n\s*\n/g, "\n")
+            .replace(/\s+/g, " ")
+            .trim();
         console.log(text);
 
         // // 내용이 너무 길면 잘라내기
