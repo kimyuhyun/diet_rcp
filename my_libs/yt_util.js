@@ -4,7 +4,7 @@ const axios = require("axios");
 const openaiSummary = require("./openai_summary");
 const geminiSummary = require("./gemini_summary");
 
-const path = require('path');
+const path = require("path");
 const cookiePath = path.resolve(__dirname, "cookies.txt");
 
 // JSON 형식 자막에서 텍스트만 추출하는 함수
@@ -61,6 +61,7 @@ async function getVideoDescriptionWithoutAPI(url) {
                 "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
             },
         });
+        console.log("getVideoDescriptionWithoutAPI", data);
 
         const html = data;
         const initialPlayerResponseMatch = html.match(/var ytInitialPlayerResponse = ({.*?});<\/script>/);
@@ -83,7 +84,6 @@ async function getTranscript(url) {
     try {
         const ytDlp = new YTDlpWrap();
         console.log(cookiePath);
-        
 
         // 자막 정보 가져오기 - 출력 형식 변경
         const output = await ytDlp.execPromise([
@@ -136,6 +136,8 @@ async function getTranscript(url) {
 
         const { data } = await axios.get(subtitleUrl);
         const text = parseJsonSubtitle(data);
+
+        console.log(text);
 
         // 이후에 subtitleUrl을 사용하여 자막 내용을 가져오는 로직 구현
         // 여기서는 간단히 자막을 찾았다는 메시지만 반환
