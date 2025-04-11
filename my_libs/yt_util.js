@@ -56,27 +56,26 @@ function parseJsonSubtitle(jsonSubtitle) {
 
 async function getVideoDescriptionWithoutAPI(url) {
     try {
-        const { data } = await axios.get(url, {
+        const { data: html } = await axios.get(url, {
             headers: {
                 "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
+                "User-Agent":
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123 Safari/537.36",
             },
         });
-        
-        const html = data;
-        const initialPlayerResponseMatch = html.match(/var ytInitialPlayerResponse = ({.*?});<\/script>/);
 
-        if (!initialPlayerResponseMatch) {
+        const match = html.match(/ytInitialPlayerResponse\s*=\s*({.*?});/s);
+        if (!match) {
             throw new Error("ytInitialPlayerResponse를 찾을 수 없습니다.");
         }
-        
-        console.log(initialPlayerResponseMatch);
 
-        const playerResponse = JSON.parse(initialPlayerResponseMatch[1]);
+        const playerResponse = JSON.parse(match[1]);
         const description = playerResponse.videoDetails?.shortDescription;
+        console.log("getVideoDescriptionWithoutAPI", description);
 
         return description || "";
     } catch (error) {
-        console.log("getVideoDescriptionWithoutAPI", error);
+        console.log("getVideoDescriptionWithoutAPI 에러:", error);
         return null;
     }
 }

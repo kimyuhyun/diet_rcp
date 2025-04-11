@@ -122,8 +122,6 @@ async function extractYoutube(result, lang, url) {
     const truncatedContent =
         allContent.length > maxContentLength ? allContent.substring(0, maxContentLength) + "..." : allContent;
 
-    console.log(lang, truncatedContent);
-
     // OpenAI 요약 처리
     const jsonData = await openaiSummary.main(lang, truncatedContent);
 
