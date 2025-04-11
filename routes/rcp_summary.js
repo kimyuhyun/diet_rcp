@@ -105,6 +105,13 @@ async function extractYoutube(result, lang, url) {
         return result;
     }
 
+    // // 성공 케이스
+    // result.code = 1;
+    // result.message = MESSAGE.SUCCESS;
+    // result.json_data = `${transcriptText}\n\n\n${descriptionText}`;
+
+    // return result;
+
     // 내용이 너무 길면 잘라내기
     const maxContentLength = 15000; // API 제한 고려
 
