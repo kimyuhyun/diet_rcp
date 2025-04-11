@@ -61,8 +61,7 @@ async function getVideoDescriptionWithoutAPI(url) {
                 "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
             },
         });
-        console.log("getVideoDescriptionWithoutAPI", data);
-
+        
         const html = data;
         const initialPlayerResponseMatch = html.match(/var ytInitialPlayerResponse = ({.*?});<\/script>/);
 
@@ -75,7 +74,7 @@ async function getVideoDescriptionWithoutAPI(url) {
 
         return description || "";
     } catch (error) {
-        console.error(error);
+        console.log("getVideoDescriptionWithoutAPI", error);
         return null;
     }
 }
